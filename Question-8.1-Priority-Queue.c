@@ -82,14 +82,14 @@ int dequeue(priorityQueue * auxQueue){
 void printQueue(priorityQueue * auxQueue){
 
     Node * auxPrint = auxQueue -> head;
-    int numberReg = 0;
 
+    printf("Head -> ");
     while (auxPrint != NULL){
 
-        printf("Elemento %d: valor %d\n", numberReg, auxPrint -> token);
-        numberReg++;
+        printf("%d ", auxPrint -> token);
         auxPrint = auxPrint -> next;
     }
+    printf("<- Tail <=> Size: %d\n", auxQueue -> size);
 }
 
 int main(void){

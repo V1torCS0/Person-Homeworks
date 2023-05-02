@@ -68,12 +68,12 @@ char popChar(Stack * auxStk){
 
 int main() {
 
-    char inputUser[20];
+    char inputUser[100];
     Stack * charStk = init();
     int j = 0;
 
     printf("Digite uma expressao para ser criptografada: ");
-    fgets(inputUser, 20, stdin);
+    fgets(inputUser, 100, stdin);
 
     while (inputUser[j] != '\0'){    
 

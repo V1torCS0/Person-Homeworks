@@ -4,7 +4,7 @@
 
 typedef struct node{
 
-    float operand;
+    int operand;
     struct node * bottom;
 }Node;
 
@@ -23,7 +23,7 @@ Stack * initCalc(void){
     return auxStk;
 }
 
-void pushCalc(Stack * auxStk, float value){
+void pushCalc(Stack * auxStk, int value){
 
     Node * newNode = malloc(sizeof(Node));
     newNode -> operand = value;
@@ -42,7 +42,7 @@ void pushCalc(Stack * auxStk, float value){
 int popCalc(Stack * auxStk){
 
     Node * garbage = auxStk -> top;
-    float value = 0;
+    int value = 0;
 
     if (auxStk -> top != NULL){
 
@@ -62,7 +62,7 @@ void printStkCalc(Stack * auxStk){
     printf("Topo -> ");
     while (auxPrint != NULL){
 
-        printf("%.2f ", auxPrint -> operand);
+        printf("%d ", auxPrint -> operand);
         auxPrint = auxPrint -> bottom;
     }
     printf("<- Base\nTamanho: %d\n", auxStk -> size);
@@ -82,7 +82,7 @@ int main(void){
 
         if (isdigit(inputUser[i])){
 
-            float operand = atof(&inputUser[i]);
+            int operand = atoi(&inputUser[i]);
             pushCalc(operandStk, operand);
 
             while (isdigit(inputUser[i])){
@@ -93,8 +93,8 @@ int main(void){
             continue;
         }else{
 
-            float operandOne = popCalc(operandStk), operandTwo = popCalc(operandStk);
-            float result;
+            int operandOne = popCalc(operandStk), operandTwo = popCalc(operandStk);
+            int result;
 
             switch (inputUser[i]){
 
@@ -109,10 +109,10 @@ int main(void){
         }
     }
 
-    float resultExpression = popCalc(operandStk);
+    int resultExpression = popCalc(operandStk);
 
     if (operandStk -> top != NULL) { 
         printf("Sentenca numerica nao formulada corretamente.\n");
         exit(1);    
-    }else{ printf("RESULTADO = %.2f\n", resultExpression); exit(0); }
+    }else{ printf("RESULTADO = %d\n", resultExpression); exit(0); }
 }

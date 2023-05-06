@@ -39,7 +39,7 @@ Stack * createStk(void){
     return auxStk;
 }
 
-MainStack * initMain(void){
+MainStack * createMain(void){
 
     MainStack * auxMain = malloc(sizeof(MainStack));
 
@@ -64,11 +64,11 @@ int popStk(Stack * auxStk){
     int valueReturned = -1;
     if (auxStk -> topStk != NULL){
 
-        Node * garbage = auxStk -> topStk;
+        Node * ndGarbage = auxStk -> topStk;
         valueReturned = auxStk -> topStk -> value;
         auxStk -> topStk = auxStk -> topStk -> ndNext;
 
-        free(garbage);
+        free(ndGarbage);
         auxStk -> size--;
     }
     return valueReturned;
@@ -78,18 +78,63 @@ void printStk(Stack * auxStk){
 
     Node * auxPrint = auxStk -> topStk;
 
-    printf("\nTop -> ");
+    printf("|Top -> ");
     while (auxPrint != NULL){
 
         printf("%d ", auxPrint -> value);
         auxPrint = auxPrint -> ndNext;
     }
-    printf("<- Base <=> Size: %d\n", auxStk -> size);
+    printf("<- Base <=> Size: %d|", auxStk -> size);
+}
+
+//funções da pilha main
+
+void pushMain(Stack * auxStk, MainStack * auxMain){
+
+    auxStk -> stkNext = auxMain -> topMain;
+    auxMain -> topMain = auxStk;
+    auxMain -> size++;
+}
+
+void popMain(MainStack * auxMain){
+
+    if (auxMain -> topMain != NULL){
+
+        Stack * stkGarbage = auxMain -> topMain;
+        Node * ndReturned = auxMain -> topMain -> topStk; 
+        auxMain -> topMain = auxMain -> topMain -> stkNext;
+        
+        printf("Removed Elements: ( ");
+        while (ndReturned != NULL){
+            
+            printf("%d ", ndReturned -> value);
+            ndReturned = ndReturned -> ndNext;
+        }
+        printf(")\n");
+        
+        free(stkGarbage);
+        auxMain -> size--;
+    }else{ printf("Empty Stack\n");}
+}
+
+void printMain(MainStack * auxMain){
+
+    Stack * auxPrint = auxMain -> topMain;
+
+    printf("\nTop ->(");
+    while (auxPrint != NULL){
+
+        printStk(auxPrint);
+        auxPrint = auxPrint -> stkNext;
+    }
+    printf(")<- Base <=> Size: %d\n", auxMain -> size);
 }
 
 int main(){ 
     
     Stack * pilha = createStk();
+    Stack * pilha2 = createStk();
+    MainStack * masterPilha = createMain();
 
     pushStk(19, pilha);
     pushStk(23, pilha);
@@ -97,7 +142,12 @@ int main(){
     pushStk(93, pilha);
     popStk(pilha);
 
-    printStk(pilha);
-    
+    pushMain(pilha, masterPilha);
+    pushMain(pilha2, masterPilha);
+    printMain(masterPilha);
+    popMain(masterPilha);
+    popMain(masterPilha);
+    printMain(masterPilha);
+    popMain(masterPilha);
     return 0; 
 }
